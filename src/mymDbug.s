@@ -1,8 +1,29 @@
 
 
+#define _DecodedByte $00
+#define _DecodeBitCounter $01
+#define _DecodedResult $02
+#define _CurrentAYRegister $03
+
+#define _RegisterBufferHigh $0c
+
+#define _RegisterBufferLow $04
+
+#define _BufferFrameOffset	$0d		; From 0 to 127, used when filling the decoded register buffer
+
+#define _MusicResetCounter	$0e ; 2 bytes		; Contains the number of rows to play before reseting
+
+#define _CurrentFrame		$10		; From 0 to 255 and then cycles... the index of the frame to play this vbl
+
+#define _PlayerVbl			$11
+#define _MusicLooped		$12
+
+#define _FrameLoadBalancer	$13		; We depack a new frame every 9 VBLs, this way the 14 registers are evenly depacked over 128 frames
+
+
 	.zero
 
-	*=$50
+/*
 
 _DecodedByte		.dsb 1		; Byte being currently decoded from the MYM stream
 _DecodeBitCounter	.dsb 1		; Number of bits we can read in the current byte
@@ -21,7 +42,7 @@ _PlayerVbl			.dsb 1
 _MusicLooped		.dsb 1
 
 _FrameLoadBalancer	.dsb 1		; We depack a new frame every 9 VBLs, this way the 14 registers are evenly depacked over 128 frames
-
+*/
 
 	.text
 
@@ -50,63 +71,8 @@ _FrameLoadBalancer	.dsb 1		; We depack a new frame every 9 VBLs, this way the 14
 						 
 #define _PlayerBufferEnd	$7600
 
-#ifdef TARGET_TELEMON
-#include "..\..\include\telemon.h"
-#include "..\..\include\macro_orix.h"
-#include "..\..\zp_orix.h"
-#endif
 
-.text
-
-#ifdef TARGET_TELEMON
-*=$1000-20
-	.byt $01,$00		; non-C64 marker
-;2
-    .byt "o", "r", "i"      ; "o65" MAGIC number :$6f, $36, $35
-	.byt 1			; version
-	;5
-	.byt $00, $00	; mode word mode0, mode1
-	.byt $00, $00		; CPU type
-	.byt $00, $00		; operating system id
-;11
-	.byt $00 ; reserved
-;12	
-	.byt %01001001 ; Auto, direct, data
-;13	
-	.byt <start_adress,>start_adress ; loading adress
-	.byt <end_adress,>end_adress ; end of loading adress
-	.byt <start_adress,>start_adress ; starting adress
-
-start_adress
-#endif
-
-	*=$1000
-
-#ifdef NO_SAMPLE
-	; a bit crap !
-	ldx #1
-	jsr _orix_get_opt
-	bcc print_usage
-	jmp start_mym
-print_usage
-	PRINT(str_no_param)
-	rts
-str_no_param
-	.asc "usage: mym FILE",0
-start_mym
-	//STRCPY(ORIX_ARGV,BUFNOM)
-	PRINT(ORIX_ARGV)
-	lda #<ORIX_ARGV
-	ldx #>ORIX_ARGV
-	BRK_TELEMON(XOPEN)
-	cpx #0 ; if it return $ffff (a and x it's not open)
-	beq file_found
-print_file_not_found
-	PRINT(str_file_not_found)
-	rts
-str_file_not_found
-	.asc "File not found",0
-file_found
+/*
 	lda #>_MusicData
 	sta PTR_READ_DEST+1
 	lda #<_MusicData
@@ -114,12 +80,11 @@ file_found
 	lda #<16000
 	ldy #>16000
 	BRK_TELEMON(XFREAD) ; FREAD
-	; read 
-#endif
+*/
 	
-	
-#ifdef TARGET_TELEMON
-	PRINT(str_warning)
+_play_mym	
+  .dsb 256-(*&255)
+	;PRINT(str_warning)
 	sei
 	lda #<10000
 	sta VIA_T1CL
@@ -135,8 +100,8 @@ file_found
 	lda #0+32+64
 	sta $32e
 	cli
+  jmp StartMusic
 
-#endif
 	
 
 
@@ -444,7 +409,11 @@ loop_init
 	.(
 	lda #>_PlayerBuffer
 	sta _RegisterBufferHigh
-
+  
+  lda #<_PlayerBuffer ; Jede
+  sta _RegisterBufferLow  ; Jede
+  
+  
 	ldx #0
 unpack_block_loop
 	stx _CurrentAYRegister
@@ -494,10 +463,33 @@ music_contines
 	; Play a frame of 14 registers
 	;
 	.(
-	lda _CurrentFrame
+	/*
+  lda _CurrentFrame
 	sta _auto_psg_play_read+1
-	lda #>_PlayerBuffer
+	 
+  
+  lda #>_PlayerBuffer
 	sta _auto_psg_play_read+2
+  */
+
+  lda #>_PlayerBuffer
+	sta _auto_psg_play_read+2
+  
+  lda #<_PlayerBuffer
+	sta _auto_psg_play_read+1
+  
+  lda _CurrentFrame
+  clc
+	adc _auto_psg_play_read+1
+  bcc next3
+  inc _auto_psg_play_read+2
+next3  
+  sta _auto_psg_play_read+1
+	 
+  
+
+  
+  
 
 	ldy #0
 register_loop
@@ -646,9 +638,9 @@ _PlayerUnpackRegister
 	clc
 	adc _CurrentAYRegister
 	; FIXME JEDE
-	;bcc next2
-	;inc _RegisterBufferLow
-;next2	
+	bcc next2
+	inc _RegisterBufferLow
+next2	
 
 
 
@@ -680,6 +672,9 @@ UnchangedFragment
 	lda _RegisterBufferHigh				; highpart of buffer adress + register number
 	sta __auto_copy_unchanged_write+2
 
+;  lda _RegisterBufferLow				; Jede 
+	;sta __auto_copy_unchanged_write+1 ; Jede
+  
 	ldx #128							; 128 iterations
 	lda _PlayerRegCurrentValue			; Value to write
 
@@ -729,6 +724,9 @@ UnchangedRegister
 	lda _RegisterBufferHigh				; highpart of buffer adress + register number
 	sta player_copy_last+2
 
+  ;lda _RegisterBufferLow
+	;sta player_copy_last+1
+  
 	ldx _BufferFrameOffset				; Value between 00 and 7f
 	lda _PlayerRegCurrentValue			; Value to copy
 player_copy_last
@@ -871,14 +869,11 @@ _PlayerRegBits
 _PlayerBuffer
 	 .dsb 256*14 ;(About 3.5 kilobytes)
 
-#ifdef NO_SAMPLE
+
 _MusicData
+.dsb 17000
 end_adress
-#else
-_MusicData
-#include "data\music.inc"
-end_adress
-#endif	 
+
 
 
 

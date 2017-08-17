@@ -1,0 +1,3 @@
+                                                                                 
+  ORIX    1.0    Command: mym       
+  ORIX    1.0    Command: mym                                                       play any mym music                                                   Syntax :  #mym ghostbus.mym                                                   Some mym files are here : /usr/share/mym                                        Orix port by Jede : August 2017. Mym Code is used (Dbug)                                                                                                         Examples: mym mymusic.mym                                                     Src code : https://github.com/oric-software/mym.git  

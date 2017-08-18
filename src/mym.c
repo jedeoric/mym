@@ -104,10 +104,9 @@ if (fp==NULL)
   printf("Can't open %s\n",argv[1]);
   return 0;
 }
-printf ("This version of mym never stops music and don't catch any keys, please reset to stop\n");
 printf("Playing ... %s\n",argv[1]);
 fread(&MusicData,17000,1,fp);
 play_mym();
-
+  
 	
 }

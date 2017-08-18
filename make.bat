@@ -8,7 +8,7 @@ rem ECHO Assembling music player
 rem %OSDK%\bin\header -h1 -a0 build\mymplayer.o build\mymplayer.tap $6500
 
 SET BINARYFILE=mym
-SET PATH_RELEASE=build\usr\share\mym\
+SET PATH_RELEASE=build\usr\share\%BINARYFILE%\
 SET ORICUTRON="..\..\..\oricutron\"
 set VERSION="0.0.1"
 SET ORIGIN_PATH=%CD%

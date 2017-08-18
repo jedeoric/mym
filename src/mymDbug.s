@@ -484,7 +484,7 @@ music_contines
   bcc next3
   inc _auto_psg_play_read+2
 next3  
-  sta _auto_psg_play_read+1
+ sta _auto_psg_play_read+1
 	 
   
 

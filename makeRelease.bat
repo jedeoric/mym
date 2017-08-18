@@ -14,11 +14,11 @@ cd build
 rem here clean it
 del /S /F /Q %BINARY%.tar
 cd ..
-
+echo test
 mkdir release\download\orix\%VERSION%\
 mkdir build\usr\share\man
 xcopy src\man\* build\usr\share\man  /E /Q /Y
-xcopy README.md build\usr\share\doc\file  /E /Q /Y
+xcopy README.md build\usr\share\doc\%BINARY%  /E /Q /Y
 
 cd build
 

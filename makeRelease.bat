@@ -5,10 +5,12 @@ REM Copy from man
 
 SET BINARY=mym
 
-Set VERSION=0.0.1
+Set VERSION=1.0.0
 
 set PATH_TAR="C:\Program Files (x86)\GnuWin32\bin"
 set PATH_UNZIP="C:\Program Files\7-Zip"
+
+call make_data.bat
 
 cd build
 rem here clean it
@@ -19,6 +21,7 @@ mkdir release\download\orix\%VERSION%\
 mkdir build\usr\share\man
 xcopy src\man\* build\usr\share\man  /E /Q /Y
 xcopy README.md build\usr\share\doc\%BINARY%  /E /Q /Y
+xcopy src\ipkg\* build\usr\share\ipkg  /E /Q /Y
 
 cd build
 

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "version.h"
+
 extern void play_mym();
 
 //extern void hires();
@@ -12,7 +14,7 @@ extern char MusicData[];
 
 void version()
 {
-  printf("mym 0.0.1\n");
+  printf("mym %s\n",VERSION);
 }
 
 void usage()
@@ -104,8 +106,9 @@ if (fp==NULL)
   printf("Can't open %s\n",argv[1]);
   return 0;
 }
+printf("Please reset to stop.\n",argv[1]);
 printf("Playing ... %s\n",argv[1]);
-fread(&MusicData,17000,1,fp);
+fread(MusicData,17000,1,fp);
 play_mym();
   
 	

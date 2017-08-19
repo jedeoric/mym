@@ -71,8 +71,17 @@ _FrameLoadBalancer	.dsb 1		; We depack a new frame every 9 VBLs, this way the 14
 						 
 #define _PlayerBufferEnd	$7600
 
+#include "../oric-common/include/asm/telemon.h"
 
+  ;BRK_TELEMON(XHIRES)
+
+
+
+
+	
+_play_mym	
 /*
+  #define PTR_READ_DEST $2c
 	lda #>_MusicData
 	sta PTR_READ_DEST+1
 	lda #<_MusicData
@@ -80,10 +89,8 @@ _FrameLoadBalancer	.dsb 1		; We depack a new frame every 9 VBLs, this way the 14
 	lda #<16000
 	ldy #>16000
 	BRK_TELEMON(XFREAD) ; FREAD
-*/
-	
-_play_mym	
   .dsb 256-(*&255)
+  */
 	;PRINT(str_warning)
 	sei
 	lda #<10000

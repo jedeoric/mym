@@ -28,6 +28,7 @@ echo Generating B Letter
 %YM2MYM% "data\big-alec\bouncy.ym"               %PATH_RELEASE%\bigalec\bouncy.mym
 %YM2MYM% "data\big-alec\orion.ym"               %PATH_RELEASE%\bigalec\orion.mym
 %YM2MYM% "data\big-alec\traffic.ym"               %PATH_RELEASE%\bigalec\traffic.mym
+%YM2MYM% "data\big-alec\Reality.ym"               %PATH_RELEASE%\bigalec\reality.mym
 
 rem too long
 rem %YM2MYM% "data\big-alec\Judgement day.ym"               %PATH_RELEASE%\bigalec\judgemen.mym

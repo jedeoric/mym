@@ -12,13 +12,14 @@ REM COPY from make file from touch
 SET BINARYFILE=mym
 SET PATH_RELEASE=build\usr\share\%BINARYFILE%\
 SET ORICUTRON="..\..\..\oricutron\"
-set VERSION="1.0.0"
+set VERSION=1.0.0
 SET ORIGIN_PATH=%CD%
 echo %osdk%
+SET PATH=%PATH%;%CC65%
 
 echo Cleaning build folder
 
-del /F /S /Q build\
+rem del /F /S /Q build\
           
 mkdir build\bin
 mkdir build\usr\share\doc\
@@ -27,8 +28,12 @@ mkdir build\usr\share\%BINARYFILE%
 mkdir build\usr\share\man
 IF NOT EXIST build\usr\share\ipkg mkdir build\usr\share\ipkg      
 
-echo #define VERSION %VERSION% > src\version.h
-echo %BINARYFILE%;%VERSION%;Play a mym file > src\ipkg\%BINARYFILE%.csv
+echo #define VERSION "%VERSION%" > src\version.h
+rem  123456789012345678
+echo mym       1.0.0  Play a mym file > src\ipkg\%BINARYFILE%.csv
+
+copy README.md build\usr\share\doc\%BINARYFILE%\
+
 %OSDK%\bin\xa.exe -v -R -cc src\mymDbug.s -o src\mymplayer.o -DTARGET_FILEFORMAT_O65
 co65  src\mymplayer.o -o src\mymcc65.s
 

@@ -34,7 +34,7 @@ echo mym       1.0.0  Play a mym file > src\ipkg\%BINARYFILE%.csv
 
 copy README.md build\usr\share\doc\%BINARYFILE%\
 
-%OSDK%\bin\xa.exe -v -R -cc src\mymDbug.s -o src\mymplayer.o -DTARGET_FILEFORMAT_O65
+%OSDK%\bin\xa.exe -v -R -cc src\mymDbug.s -o src\mymplayer.o -DTARGET_FILEFORMAT_O65 -DTARGET_ORIX
 co65  src\mymplayer.o -o src\mymcc65.s
 
 cl65 -ttelestrat src/%BINARYFILE%.c src\mymcc65.s -o build\bin\%BINARYFILE%

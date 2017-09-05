@@ -145,6 +145,7 @@ StartMusic
 	sta __auto_4+2
 	sta __auto_6+2
 
+    
 	; Save the old handler value
 __auto_1
 	lda $245
@@ -167,10 +168,36 @@ __auto_4
 	plp
 	
 loop
-	nop
-	jmp loop
-	
+  jmp loop
+#define BRK_TELEMON(value)\
+	.byt 00,value;
 
+
+#ifdef TARGET_ORIX
+
+wait_key
+	lda #<10000
+	sta VIA_T1CL
+	sta VIA_T1LL
+	lda #>10000
+	sta VIA_T1CH
+	sta VIA_T1LH
+	BRK_TELEMON($08) ; Read keyboard
+	cmp #27 ; EST ?
+	;bne wait_space  
+  beq endme
+	jmp wait_key
+  ;jmp endme
+#endif
+	
+  
+endme	
+  sei
+  lda jmp_old_handler+1
+  sta $2fb
+  lda jmp_old_handler+2
+  sta $2fc
+  cli
 	rts
 
 
@@ -214,6 +241,18 @@ irq_handler
 	lda VIA_T2LL
 	lda VIA_T1CL
 #endif
+
+#ifdef TARGET_ORIX
+
+ ; sta $13
+ ; php 
+;  PLA ; pull P (flag register)
+
+	;AND #%00010000 ; test B flag B flag means an that we reach a brk commands
+	;Beq BRK_SENT ; is it a break ?
+  ;pha
+#endif  
+
 	pha
 	txa
 	pha
@@ -239,10 +278,13 @@ skipFrame
 	pla
 	;cli
 	;rti
-	
 
-#ifdef TARGET_TELEMON
-	rti
+
+#ifdef TARGET_ORIX
+BRK_SENT
+  ;pha
+  ;lda $13
+	;rti
 #else
 
 #endif	
@@ -590,8 +632,6 @@ skip
 .)
 
 #ifdef TARGET_TELEMON
-#include "..\..\lib\get_opt.asm"
-#include "..\..\lib\strcpy.asm"
 str_warning
 .asc "Music never stop, keyboard is not handled in this version. You have to reset, to get keyboard",0
 #endif

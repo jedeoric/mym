@@ -30,7 +30,7 @@ IF NOT EXIST build\usr\share\ipkg mkdir build\usr\share\ipkg
 
 echo #define VERSION "%VERSION%" > src\version.h
 rem  123456789012345678
-echo mym       1.0.0  Play a mym file > src\ipkg\%BINARYFILE%.csv
+echo | set /p dummyName=mym       1.0.0  Play a mym file > src\ipkg\%BINARYFILE%.csv
 
 copy README.md build\usr\share\doc\%BINARYFILE%\
 

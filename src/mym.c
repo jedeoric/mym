@@ -5,8 +5,6 @@
 
 extern void play_mym();
 
-//extern void hires();
-
 unsigned char version_opt=0;
 unsigned char help_opt=0;
 

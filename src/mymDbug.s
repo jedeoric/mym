@@ -71,9 +71,8 @@ _FrameLoadBalancer	.dsb 1		; We depack a new frame every 9 VBLs, this way the 14
 						 
 #define _PlayerBufferEnd	$7600
 
-#include "../oric-common/include/asm/telemon.h"
+#include "../telemon/src/include/telemon.h"
 
-  ;BRK_TELEMON(XHIRES)
 
 
 

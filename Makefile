@@ -9,14 +9,12 @@ ASFLAGS_O65=-v -R -cc  -DTARGET_FILEFORMAT_O65 -DTARGET_ORIX
 PROGRAM=mym
 SOURCE=src/mym.c
 
-ASFLAGS=-C -W -e error.txt -l xa_labels.txt -DTARGET_ORIX
+ASFLAGS=-v -R -cc  -e error.txt -l xa_labels.txt -DTARGET_ORIX
 
-%.o: src/mymDbug.s
-	$(AS) $(ASFLAGS) -o src/mymplayer.o 
+mymplayer.o: src/mymDbug.s
+	$(AS) $(ASFLAGS)  src/mymDbug.s -o src/mymplayer.o 
 	$(CO) src/mymplayer.o -o src/mymcc65.s
-
-$(PROGRAM): $(SOURCE)
-	$(CC) $(SOURCE) $(CFLAGS) -o build/bin/$(PROGRAM) $(LDFILES)
+	$(CC) $(SOURCE) $(CFLAGS) -o $(PROGRAM) $(LDFILES)
 
 test:
 	mkdir -p build/bin/

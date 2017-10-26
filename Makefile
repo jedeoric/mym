@@ -12,7 +12,7 @@ SOURCE=src/mym.c
 ASFLAGS=-C -W -e error.txt -l xa_labels.txt -DTARGET_ORIX
 
 %.o: src/mymDbug.s
-	$(AS) $(ASFLAGS) -o -o src/mymplayer.o 
+	$(AS) $(ASFLAGS) -o src/mymplayer.o 
 	$(CO) src/mymplayer.o -o src/mymcc65.s
 
 $(PROGRAM): $(SOURCE)

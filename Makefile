@@ -14,7 +14,7 @@ ASFLAGS=-v -R -cc  -e error.txt -l xa_labels.txt -DTARGET_ORIX
 mymplayer.o: src/mymDbug.s
 	$(AS) $(ASFLAGS)  src/mymDbug.s -o src/mymplayer.o 
 	$(CO) src/mymplayer.o -o src/mymcc65.s
-	$(CC) $(CFLAGS) -o $(PROGRAM) $(LDFILES) $(SOURCE)
+	$(CC) -o $(PROGRAM) $(CFLAGS) $(SOURCE)  $(LDFILES)
 
 test:
 	mkdir -p build/bin/

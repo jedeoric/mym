@@ -27,7 +27,8 @@ test:
 	mkdir -p build/usr/share/man
 	mkdir -p build/usr/share/ipkg
 	mkdir -p build/usr/share/$(PROGRAM)/
-	mkdir -p build/usr/share/doc/$(PROGRAM)  
+	mkdir -p build/usr/share/doc/$(PROGRAM)
+	mkdir -p build/usr/share/man/  
 	cp $(PROGRAM) build/bin/
 	cd $(HOMEDIR) && cat $(HOMEDIR_PROGRAM)/src/man/$(PROGRAM).md | md2hlp.py > $(HOMEDIR_PROGRAM)/build/usr/share/man/$(PROGRAM).hlp        
 	cp src/ipkg/$(PROGRAM).csv build/usr/share/ipkg

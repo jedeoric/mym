@@ -33,6 +33,8 @@ test:
 	cd $(HOMEDIR) && cat $(HOMEDIR_PROGRAM)/src/man/$(PROGRAM).md | md2hlp.py > $(HOMEDIR_PROGRAM)/build/usr/share/man/$(PROGRAM).hlp        
 	cp src/ipkg/$(PROGRAM).csv build/usr/share/ipkg
 	cp README.md build/usr/share/doc/$(PROGRAM)/  
+	wget https://pacidemo.planet-d.net/aldn/ym/bigalec.zip
+	unzip bigalec.zip
 	cd build &&	tar -c * > ../$(PROGRAM).tar && cd ..
 	filepack  $(PROGRAM).tar $(PROGRAM).pkg
 	gzip $(PROGRAM).tar

@@ -13,7 +13,8 @@ CFLAGS=-ttelestrat
 LDFILES=src/mymcc65.s
 ASFLAGS_O65=-v -R -cc  -DTARGET_FILEFORMAT_O65 -DTARGET_ORIX
 
-
+YM2MYM_ATARI=Ym2Mym -h0 -m15872 -t1
+PATH_RELEASE=build/usr/share/mym/
 
 ASFLAGS=-v -R -cc  -e error.txt -l xa_labels.txt -DTARGET_ORIX
 
@@ -35,6 +36,8 @@ test:
 	cp README.md build/usr/share/doc/$(PROGRAM)/  
 	wget https://pacidemo.planet-d.net/aldn/ym/bigalec.zip
 	unzip bigalec.zip
+	ls -l
+	$YM2MYM_ATARI "data/4-mat/Beastbusters 1.ym"  $PATH_RELEASE/4mat/beastbus.mym
 	cd build &&	tar -c * > ../$(PROGRAM).tar && cd ..
 	filepack  $(PROGRAM).tar $(PROGRAM).pkg
 	gzip $(PROGRAM).tar
@@ -42,3 +45,4 @@ test:
 	php buildTestAndRelease/publish/publish2repo.php $(PROGRAM).pkg ${hash} 6502 pkg alpha
 	php buildTestAndRelease/publish/publish2repo.php $(PROGRAM).tgz ${hash} 6502 tgz alpha
 	echo nothing
+ 

@@ -8,7 +8,7 @@ ASFLAGS_O65=-v -R -cc  -DTARGET_FILEFORMAT_O65 -DTARGET_ORIX
 
 PROGRAM=mym
 SOURCE=src/mym.c
-
+ 
 ASFLAGS=-v -R -cc  -e error.txt -l xa_labels.txt -DTARGET_ORIX
 
 mymplayer.o: src/mymDbug.s

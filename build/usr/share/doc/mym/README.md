@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/oric-software/mym.svg?branch=master)](https://travis-ci.org/oric-software/mym)
+
 mym
 
 # 01/10/2017

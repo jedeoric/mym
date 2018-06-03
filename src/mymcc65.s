@@ -5,6 +5,8 @@
 .case		on
 .debuginfo	off
 
+B = CODE+0
+.export	B
 _play_mym = CODE+0
 .export	_play_mym
 StartMusic = CODE+37

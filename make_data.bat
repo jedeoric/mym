@@ -31,7 +31,7 @@ echo Generating B Letter
 %YM2MYM_ATARI% "data\big-alec\orion.ym"               %PATH_RELEASE%\bigalec\orion.mym
 %YM2MYM% "data\big-alec\traffic.ym"               %PATH_RELEASE%\bigalec\traffic.mym
 %YM2MYM_ATARI% "data\big-alec\Reality.ym"               %PATH_RELEASE%\bigalec\reality.mym
-%YM2MYM% "data\factor6\BatmanForever.ym"               %PATH_RELEASE%\factor6\batman.mym
+%YM2MYM_ATARI% "data\factor6\BatmanForever.ym"               %PATH_RELEASE%\factor6\batman.mym
 %YM2MYM% "data\factor6\BatmanForeverEnd.ym"               %PATH_RELEASE%\factor6\batmanen.mym
 
 rem too long
